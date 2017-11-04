@@ -49,8 +49,6 @@
     }
 
 
-    var grass;
-
     function loaded() {
         //called when resources requested are loaded
 
