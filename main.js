@@ -72,8 +72,6 @@
             }
         }
 
-        var sx = 0;
-        var sy = 0;
         var tileNumber = 0;
 
         for (var y = 0; y < map.height; y++) {
@@ -84,9 +82,7 @@
                 stage.addChild(sprite);
 
                 tileNumber++;
-                sx += map.tilesets[0].tilewidth;
             }
-            sy += map.tilesets[0].tileheight;
         }
 
 
