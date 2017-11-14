@@ -94,7 +94,7 @@ Author: William Kendall
         if (_resourcesLoaded == false)
             return;
 
-        
+
         //render sub objects
         for (var o = 0; o < objects.length; o++) {
             var object = objects[o];
@@ -105,7 +105,7 @@ Author: William Kendall
 
             //TODO:test if object is on the display area
             //allocate sprite. soon: if near on screen, remove sprite if not
-            if (object.sprite === null) {
+            if (typeof object.sprite == "undefined") {
                 object.sprite = _spritePool.pop();
                 object.sprite.texture = _textures[object.gid];
                 _application.stage.addChild(object.sprite);
