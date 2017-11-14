@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Zombie Cat</title>
-    <script src="pixi.min.js"></script>
-    <script type="text/javascript" src="Utils.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.1/pixi.min.js"></script>
+    <script type="text/javascript" src="DeadCat/Utils.js"></script>
+    <script type="text/javascript" src="DeadCat/Object.js"></script>
+    <script type="text/javascript" src="DeadCat/GraphicsManager.js"></script>
+    <script type="text/javascript" src="DeadCat/deadcat.js"></script>
+
 </head>
 <body>
 <p>CMSC495 Project</p>
 <div id="display"></div>
-<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript">
+
+    var game = new DeadCat("maps/sandbox.json");
+
+
+</script>
 </body>
 </html>
