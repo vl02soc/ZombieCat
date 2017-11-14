@@ -94,6 +94,7 @@ Author: William Kendall
         if (_resourcesLoaded == false)
             return;
 
+        
         //render sub objects
         for (var o = 0; o < objects.length; o++) {
             var object = objects[o];
