@@ -5,15 +5,16 @@ Dead Cat Game Engine
 Author: William Kendall
  */
 
-!function ($w, Utils, GraphicsManager, dcObject, dcLayer) {
+!function ($w, Utils, GraphicsManager, KeyboardManager, dcObject, dcLayer) {
     var _GraphicsManager = null;
+    var _KeyboardManager = null;
     var _engine;
     var _map = null;
     var mapLayer = null;
-    var mapSprite = null;
 
     function DeadCat(mapFile) {
         _engine = this;
+        _KeyboardManager = new KeyboardManager();
         _engine.Utils = new Utils();
 
         //TODO: test that the map was downloaded, or if an error (this is done by editing utils.js to return the error)
@@ -69,6 +70,8 @@ Author: William Kendall
     var offx = 0;
     var offy = 0;
     var gml = false;
+    var mapSprite = null;
+
     function update(delta) {
         if (_GraphicsManager.resourcesLoaded === false) {
             return;
@@ -79,13 +82,21 @@ Author: William Kendall
             _GraphicsManager.addChild(mapSprite);
             gml = true;
         }
-        offx -= delta * 0.01;
-        offy -= delta * 0.01;
-        mapSprite.x += offx;
-        mapSprite.y += offy;
+
+        var mvDelta = delta * 5;
+
+        if (_KeyboardManager.keysPressed[87] == true)
+            mapSprite.y += mvDelta;
+        if (_KeyboardManager.keysPressed[83] == true)
+            mapSprite.y -= mvDelta;
+        if (_KeyboardManager.keysPressed[65] == true)
+            mapSprite.x += mvDelta;
+        if (_KeyboardManager.keysPressed[68] == true)
+            mapSprite.x -= mvDelta;
+
         //_GraphicsManager.update(_objects, offx, offy);
     }
 
     $w.DeadCat = DeadCat;
 
-}(this, Utils, _DeadCat_GraphicsManager, _DeadCat_Object, _DeadCat_Layer);
+}(this, Utils, _DeadCat_GraphicsManager, _DeadCat_KeyboardManager, _DeadCat_Object, _DeadCat_Layer);
