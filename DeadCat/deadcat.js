@@ -84,19 +84,24 @@ Author: William Kendall
         }
 
         var mvDelta = delta * 5;
-
-        if (_KeyboardManager.keysPressed[87] && _KeyboardManager.keysPressed[83] ||
-            _KeyboardManager.keysPressed[65] && _KeyboardManager.keysPressed[68])
-            mvDelta = mvDelta / 2;
+        var moveX = 0;
+        var moveY = 0;
 
         if (_KeyboardManager.keysPressed[87] == true)
-            mapSprite.y += mvDelta;
+            moveY += mvDelta;
         if (_KeyboardManager.keysPressed[83] == true)
-            mapSprite.y -= mvDelta;
+            moveY -= mvDelta;
         if (_KeyboardManager.keysPressed[65] == true)
-            mapSprite.x += mvDelta;
+            moveX += mvDelta;
         if (_KeyboardManager.keysPressed[68] == true)
-            mapSprite.x -= mvDelta;
+            moveX -= mvDelta;
+
+        if (moveX != 0 && moveY != 0) {
+            moveX = moveX / 1.5;
+            moveY = moveY / 1.5;
+        }
+        mapSprite.y += moveY;
+        mapSprite.x += moveX;
 
         //_GraphicsManager.update(_objects, offx, offy);
     }
