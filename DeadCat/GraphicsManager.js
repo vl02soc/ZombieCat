@@ -31,7 +31,7 @@ Author: William Kendall
         var renderingOptions = {
             transparent: false,
             resolution: 1,
-            backgroundColor: '0x000000',
+            backgroundColor: '0xFF0000',
             antialias: false,
         };
 

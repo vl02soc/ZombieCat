@@ -41,8 +41,10 @@ Author: William Kendall
                 var posY = 0;
                 for (var layerY = 0; layerY < layer.height; layerY++) {
                     for (var layerX = 0; layerX < layer.width; layerX++) {
-                        if (layer.data[layerY * layer.width + layerX] === 0)
+                        if (layer.data[layerY * layer.width + layerX] === 0) {
+                            posX += _map.tilewidth;
                             continue; //gid of 0 is nothing
+                        }
                         var newTile = new dcObject();
                         newTile.x = posX;
                         newTile.y = posY;
@@ -75,7 +77,6 @@ Author: William Kendall
             _GraphicsManager.bindTextures(mapLayer);
             mapSprite = _GraphicsManager.spriteFromLayer(mapLayer);
             _GraphicsManager.addChild(mapSprite);
-            console.log(mapSprite);
             gml = true;
         }
         offx -= delta * 0.01;
