@@ -1,21 +1,37 @@
 /*
 Team Zombie Cat
-Dead Cat Game Engine - Game Object
+Dead Cat Game Engine - Game Objects
 
 Author: William Kendall
 */
 
 !function ($w, PIXI) {
-    Object.prototype.gid = 0;
-    Object.prototype.x = 0;
-    Object.prototype.y = 0;
-    Object.prototype.width = 0;
-    Object.prototype.height = 0;
-    Object.prototype.sprite = null;
+    Layer.prototype = Object.create(PIXI.Container.prototype);
+    Layer.prototype.constructor = Layer;
 
-    function Object() {
+    Layer.prototype.texture = null;
+
+    var _self = null;
+
+    function Layer() {
+        PIXI.Container.call(this);
+        _self = this;
+    }
+
+    $w._DeadCat_Layer = Layer;
+}(this, PIXI);
+
+
+!function ($w, PIXI) {
+    gObject.prototype = Object.create(PIXI.Sprite.prototype);
+    gObject.prototype.constructor = gObject;
+
+    gObject.prototype.gid = 0;
+
+    function gObject() {
+        PIXI.Sprite.call(this);
         //constructor
     }
 
-    $w._DeadCat_Object = Object;
+    $w._DeadCat_Object = gObject;
 }(this, PIXI);

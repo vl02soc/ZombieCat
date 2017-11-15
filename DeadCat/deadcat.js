@@ -5,10 +5,12 @@ Dead Cat Game Engine
 Author: William Kendall
  */
 
-!function ($w, Utils, Object, GraphicsManager) {
+!function ($w, Utils, GraphicsManager, dcObject, dcLayer) {
     var _GraphicsManager = null;
+    var _engine;
     var _map = null;
-    var _objects = null;
+    var mapLayer = null;
+    var mapSprite = null;
 
     function DeadCat(mapFile) {
         _engine = this;
@@ -21,6 +23,9 @@ Author: William Kendall
 
     function mapLoaded(rMap) {
         _map = rMap;
+
+        mapLayer = new dcLayer();
+
         console.log(_map); //for debugging reasons
         //TODO: create objects, load tilesets
         _GraphicsManager = new GraphicsManager(_map);
@@ -36,30 +41,48 @@ Author: William Kendall
                 var posY = 0;
                 for (var layerY = 0; layerY < layer.height; layerY++) {
                     for (var layerX = 0; layerX < layer.width; layerX++) {
-                        var newTile = {};
+                        var newTile = new dcObject();
                         newTile.x = posX;
                         newTile.y = posY;
                         newTile.width = _map.tilewidth;
                         newTile.height = _map.tileheight;
                         newTile.gid = layer.data[layerY * layer.width + layerX];
-                        _objects.push(newTile);
+                        mapLayer.addChild(newTile);
 
                         posX += _map.tilewidth;
                     }
                     posY += _map.tileheight;
                     posX = 0;
                 }
-
             }
         }
 
         _GraphicsManager.ticker = update;
+
     }
 
+    //TODO: this is a temp example
+    var offx = 0;
+    var offy = 0;
+    var gml = false;
     function update(delta) {
-        _GraphicsManager.update(_objects);
+        if (_GraphicsManager.resourcesLoaded === false) {
+            return;
+        }
+        if (gml === false) {
+            _GraphicsManager.bindTextures(mapLayer);
+            mapSprite = _GraphicsManager.spriteFromLayer(mapLayer);
+            _GraphicsManager.addChild(mapSprite);
+            console.log(mapSprite);
+            gml = true;
+        }
+        offx -= delta * 0.01;
+        offy -= delta * 0.01;
+        mapSprite.x += offx;
+        mapSprite.y += offy;
+        //_GraphicsManager.update(_objects, offx, offy);
     }
 
     $w.DeadCat = DeadCat;
 
-}(this, Utils, _DeadCat_Object, _DeadCat_GraphicsManager);
+}(this, Utils, _DeadCat_GraphicsManager, _DeadCat_Object, _DeadCat_Layer);

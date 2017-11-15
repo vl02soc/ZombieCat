@@ -5,17 +5,13 @@ Dead Cat Game Engine - Graphics (PIXI)
 Author: William Kendall
 */
 
-!function ($w, PIXI, Object) {
+!function ($w, PIXI, dcObject, dcLayer) {
     var _graphics = null;
     var _application = null;
     var _map;
     var _textures = [];
 
-    var _spritePool = null;
-    var _spritePoolSize = 0;
-    var _spritePoolUsedIndex = 0;
-
-    var _resourcesLoaded = false;
+    GraphicsManager.prototype.resourcesLoaded = false;
 
     function GraphicsManager(map) {
         //TODO: make setup functions non-static by taking in the setup options
@@ -70,66 +66,42 @@ Author: William Kendall
                 for (var x = 0; x < width; x++) {
                     _textures[gid] = new PIXI.Texture(PIXI.loader.resources[tileset.image].texture,
                         new PIXI.Rectangle(x * tileset.tilewidth, y * tileset.tileheight, tileset.tilewidth, tileset.tileheight));
+                    //_textures[gid].baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST; //prevents texture bleeding
                     gid++;
                 }
             }
         }
 
-        //create sprite pool
-        _spritePoolSize = 100;
-        for (var sp = 0; sp < _spritePoolSize; sp++) {
-            _spritePool[sp] = new PIXI.Sprite();
-        }
-
-        _resourcesLoaded = true;
+        _graphics.resourcesLoaded = true;
         _application.ticker.add(_graphics.ticker);
         //_application()
     }
 
-
-    GraphicsManager.prototype.update = function (objects) {
-        //remove old sprites
-        //_application.stage.removeChildren();
-        _spritePoolUsedIndex = 0;
-        if (_resourcesLoaded == false)
-            return;
-
-
-        //render sub objects
-        for (var o = 0; o < objects.length; o++) {
-            var object = objects[o];
-
-            //check if visible sprite
-            if (object.gid == 0)
-                continue;
-
-            //TODO:test if object is on the display area
-            //allocate sprite. soon: if near on screen, remove sprite if not
-            if (typeof object.sprite == "undefined") {
-                object.sprite = _spritePool.pop();
-                object.sprite.texture = _textures[object.gid];
-                _application.stage.addChild(object.sprite);
-            }
-
-            //get sprite from pool
-            object.sprite.x = object.x;
-            object.sprite.y = object.y;
-            object.sprite.width = object.width;
-            object.sprite.height = object.height;
-
+    GraphicsManager.prototype.bindTextures = function (layer) {
+        for (var i = 0; i < layer.children.length; i++) {
+            var obj = layer.children[i];
+            obj.texture = _textures[obj.gid];
         }
+    };
 
+    GraphicsManager.prototype.spriteFromLayer = function (layer) {
+        //slow
+        var brt = new PIXI.BaseRenderTexture(layer.width, layer.height);
+        var rt = new PIXI.RenderTexture(brt);
+        _application.renderer.render(layer, rt);
+        return new PIXI.Sprite(rt);
+    };
+
+    GraphicsManager.prototype.addChild = function (child) {
+        _application.stage.addChild(child);
     };
 
 
     GraphicsManager.prototype.ticker = function (delta) {
+        console.log("GE ticker");
     };
 
-
-    GraphicsManager.prototype.render = function () {
-        _application.render(_mainContainer);
-    };
 
 
     $w._DeadCat_GraphicsManager = GraphicsManager;
-}(this, PIXI, _DeadCat_Object);
+}(this, PIXI, _DeadCat_Object, _DeadCat_Layer);
