@@ -85,6 +85,10 @@ Author: William Kendall
 
         var mvDelta = delta * 5;
 
+        if (_KeyboardManager.keysPressed[87] && _KeyboardManager.keysPressed[83] ||
+            _KeyboardManager.keysPressed[65] && _KeyboardManager.keysPressed[68])
+            mvDelta = mvDelta / 2;
+
         if (_KeyboardManager.keysPressed[87] == true)
             mapSprite.y += mvDelta;
         if (_KeyboardManager.keysPressed[83] == true)
