@@ -20,7 +20,7 @@ Author: William Kendall
         _map = map;
         _spritePool = [];
 
-        //Text browser surface
+        //Test browser surface
         var pixiSurfaceType = "WebGL";
         if (!PIXI.utils.isWebGLSupported()) {
             pixiSurfaceType = "Canvas";
@@ -35,7 +35,7 @@ Author: William Kendall
             antialias: false,
         };
 
-        _application = new PIXI.Application(640, 480, renderingOptions);
+        _application = new PIXI.Application(800, 600, renderingOptions);
         $w.document.getElementById('display').appendChild(_application.view);
         //todo: check this function
         _application.ticker.speed = .5; //30 fps? maybe?

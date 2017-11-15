@@ -9,8 +9,9 @@ Author: William Kendall
     var _GraphicsManager = null;
     var _KeyboardManager = null;
     var _engine;
-    var _map = null;
+    var _map = null;    //this is the Tiled JSON object
     var mapLayer = null;
+    var objectLayer = null;
 
     function DeadCat(mapFile) {
         _engine = this;
@@ -25,14 +26,13 @@ Author: William Kendall
     function mapLoaded(rMap) {
         _map = rMap;
 
+        //todo: make layers arrays to have many layers
         mapLayer = new dcLayer();
+        objectLayer = new dcLayer();
 
         console.log(_map); //for debugging reasons
         //TODO: create objects, load tilesets
         _GraphicsManager = new GraphicsManager(_map);
-
-        //create object array
-        _objects = [];
 
         //load layers
         for (var lay = 0; lay < _map.layers.length; lay++) {
@@ -60,13 +60,25 @@ Author: William Kendall
                     posX = 0;
                 }
             }
+            else if (layer.type == "objectgroup") {
+                for (var obji = 0; obji < layer.objects.length; obji++) {
+                    var obj = layer.objects[obji];
+                    var newObj = new dcObject();
+                    newObj.x = obj.x;
+                    newObj.y = obj.y;
+                    newObj.width = obj.width;
+                    newObj.height = obj.height;
+                    newObj.gid = obj.gid;
+                    objectLayer.addChild(newObj);
+                }
+            }
         }
 
         _GraphicsManager.ticker = update;
 
     }
 
-    //TODO: this is a temp example
+    //TODO: this is a temp example of some movement
     var offx = 0;
     var offy = 0;
     var gml = false;
@@ -78,8 +90,11 @@ Author: William Kendall
         }
         if (gml === false) {
             _GraphicsManager.bindTextures(mapLayer);
+            _GraphicsManager.bindTextures(objectLayer);
             mapSprite = _GraphicsManager.spriteFromLayer(mapLayer);
             _GraphicsManager.addChild(mapSprite);
+            _GraphicsManager.addChild(objectLayer);
+            console.log(objectLayer);
             gml = true;
         }
 
@@ -97,8 +112,8 @@ Author: William Kendall
             moveX -= mvDelta;
 
         if (moveX != 0 && moveY != 0) {
-            moveX = moveX / 1.5;
-            moveY = moveY / 1.5;
+            moveX = moveX / 1.3;
+            moveY = moveY / 1.3;
         }
         mapSprite.y += moveY;
         mapSprite.x += moveX;
