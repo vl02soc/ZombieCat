@@ -11,6 +11,10 @@ Author: William Kendall
 
     Layer.prototype.texture = null;
 
+
+    Layer.prototype.properties = {};//loads from Tiled JSON file
+    Layer.prototype.properties.static = false;
+
     var _self = null;
 
     function Layer() {
@@ -27,6 +31,7 @@ Author: William Kendall
     gObject.prototype.constructor = gObject;
 
     gObject.prototype.gid = 0;
+    gObject.prototype.properties = null;
 
     function gObject() {
         PIXI.Sprite.call(this);

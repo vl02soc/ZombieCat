@@ -5,9 +5,10 @@ Dead Cat Game Engine
 Author: William Kendall
  */
 
-!function ($w, Utils, GraphicsManager, KeyboardManager, dcObject, dcLayer) {
+!function ($w, Utils, GraphicsManager, LogicManager, dcObject, dcLayer) {
     var _GraphicsManager = null;
     var _KeyboardManager = null;
+    var _LogicManager = null;
     var _engine;
     var _map = null;    //this is the Tiled JSON object
     var mapLayer = null;
@@ -15,7 +16,6 @@ Author: William Kendall
 
     function DeadCat(mapFile) {
         _engine = this;
-        _KeyboardManager = new KeyboardManager();
         _engine.Utils = new Utils();
 
         //TODO: test that the map was downloaded, or if an error (this is done by editing utils.js to return the error)
@@ -40,6 +40,7 @@ Author: William Kendall
             if (layer.type == "tilelayer") {
                 var posX = 0;
                 var posY = 0;
+                var newLayer = new dcLayer();
                 for (var layerY = 0; layerY < layer.height; layerY++) {
                     for (var layerX = 0; layerX < layer.width; layerX++) {
                         if (layer.data[layerY * layer.width + layerX] === 0) {
@@ -52,13 +53,17 @@ Author: William Kendall
                         newTile.width = _map.tilewidth;
                         newTile.height = _map.tileheight;
                         newTile.gid = layer.data[layerY * layer.width + layerX];
-                        mapLayer.addChild(newTile);
+                        newLayer.addChild(newTile);
 
                         posX += _map.tilewidth;
                     }
                     posY += _map.tileheight;
                     posX = 0;
                 }
+
+                newLayer.properties = layer.properties;
+                mapLayer = newLayer;
+
             }
             else if (layer.type == "objectgroup") {
                 for (var obji = 0; obji < layer.objects.length; obji++) {
@@ -74,53 +79,47 @@ Author: William Kendall
             }
         }
 
-        _GraphicsManager.ticker = update;
+        _GraphicsManager.ticker = update;   //graphics manager maintains the frame rate, thus, the game loop
 
     }
 
     //TODO: this is a temp example of some movement
-    var offx = 0;
-    var offy = 0;
     var gml = false;
     var mapSprite = null;
 
+
     function update(delta) {
         if (_GraphicsManager.resourcesLoaded === false) {
+            //wait until resources loaded
             return;
         }
         if (gml === false) {
-            _GraphicsManager.bindTextures(mapLayer);
-            _GraphicsManager.bindTextures(objectLayer);
-            mapSprite = _GraphicsManager.spriteFromLayer(mapLayer);
-            _GraphicsManager.addChild(mapSprite);
+            //setup
+
+            //build static layers ( no animation )
+            if (mapLayer.properties.static == true) {
+                //should remove the layer and add a texture for the hole layer
+                _GraphicsManager.bindTextures(mapLayer);
+                _GraphicsManager.bindTextures(objectLayer);
+                mapSprite = _GraphicsManager.spriteFromLayer(mapLayer);
+                _GraphicsManager.addChild(mapSprite);
+            }
+            else {
+                _GraphicsManager.addChild(mapLayer);
+            }
+
+
             _GraphicsManager.addChild(objectLayer);
-            console.log(objectLayer);
-            gml = true;
+            gml = true; //game all setup
+            _logicManager = new LogicManager(mapSprite, objectLayer);
         }
 
-        var mvDelta = delta * 5;
-        var moveX = 0;
-        var moveY = 0;
+        //begin game loop
+        _logicManager.update(delta);
 
-        if (_KeyboardManager.keysPressed[87] == true)
-            moveY += mvDelta;
-        if (_KeyboardManager.keysPressed[83] == true)
-            moveY -= mvDelta;
-        if (_KeyboardManager.keysPressed[65] == true)
-            moveX += mvDelta;
-        if (_KeyboardManager.keysPressed[68] == true)
-            moveX -= mvDelta;
 
-        if (moveX != 0 && moveY != 0) {
-            moveX = moveX / 1.3;
-            moveY = moveY / 1.3;
-        }
-        mapSprite.y += moveY;
-        mapSprite.x += moveX;
-
-        //_GraphicsManager.update(_objects, offx, offy);
     }
 
     $w.DeadCat = DeadCat;
 
-}(this, Utils, _DeadCat_GraphicsManager, _DeadCat_KeyboardManager, _DeadCat_Object, _DeadCat_Layer);
+}(this, Utils, _DeadCat_GraphicsManager, _DeadCat_LogicManager, _DeadCat_Object, _DeadCat_Layer);

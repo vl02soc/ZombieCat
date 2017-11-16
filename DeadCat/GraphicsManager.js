@@ -54,6 +54,7 @@ Author: William Kendall
 
     function imagesLoaded() {
         //PIXI callback from loading images
+        //this function takes the images and slices them into a "gid" indexed array
 
         //build textures array. gid indexed
         for (var ts = 0; ts < _map.tilesets.length; ts++) {
@@ -89,7 +90,10 @@ Author: William Kendall
         var brt = new PIXI.BaseRenderTexture(layer.width, layer.height);
         var rt = new PIXI.RenderTexture(brt);
         _application.renderer.render(layer, rt);
-        return new PIXI.Sprite(rt);
+        var sprite = new dcObject();
+        sprite.texture = rt;
+        sprite.properties = layer.properties;
+        return sprite;
     };
 
     GraphicsManager.prototype.addChild = function (child) {
