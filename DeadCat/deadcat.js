@@ -47,6 +47,8 @@ Author: William Kendall
             var newLayer = new dcLayer();
             if (layer.hasOwnProperty("properties"))
                 newLayer.properties = layer.properties;
+            if (layer.hasOwnProperty("name"))
+                newLayer.name = layer.name;
 
             if (layer.type == "tilelayer") {
                 var posX = 0;
@@ -76,8 +78,10 @@ Author: William Kendall
                 for (var obji = 0; obji < layer.objects.length; obji++) {
                     var obj = layer.objects[obji];
                     var newObj = new dcObject();
+                    if (obj.hasOwnProperty("name"))
+                        newObj.name = obj.name;
                     newObj.x = obj.x;
-                    newObj.y = obj.y;
+                    newObj.y = obj.y - obj.height; //tiled objects are reference from their bottom edge
                     newObj.width = obj.width;
                     newObj.height = obj.height;
                     newObj.gid = obj.gid;
@@ -118,11 +122,10 @@ Author: William Kendall
                 else {
                     _GraphicsManager.addChild(_layers[layer]);
                 }
-
             }
 
             gml = true; //game all setup
-            _engine.LogicManager = new LogicManager(_layers);
+            _engine.LogicManager = new LogicManager(_layers, _GraphicsManager);
             _gameSetup();
         }
 

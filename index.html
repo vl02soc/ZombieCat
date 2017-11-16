@@ -19,9 +19,13 @@
 
     var game = new DeadCat("maps/sandbox.json", setup, gameloop);
 
+    var player = null;
     function setup() {
-
+        var playerlayer = game.LogicManager.getLayerByName("Player");
+        player = game.LogicManager.getObjectByNameInLayer(playerlayer, "PlayerSprite");
+        game.LogicManager.centerObject(player);
     }
+
 
     function gameloop(game, delta) {
         var mvDelta = delta * 5;
@@ -42,8 +46,13 @@
             moveY = moveY / 1.3;
         }
         if (moveX != 0 || moveY != 0) {
-            game.LogicManager.setMapX(game.LogicManager.getMapX() + moveX);
-            game.LogicManager.setMapY(game.LogicManager.getMapY() + moveY);
+            var mapx = game.LogicManager.getMapX();
+            var mapy = game.LogicManager.getMapY();
+            //game.LogicManager.setMapX(mapx + moveX);
+            //game.LogicManager.setMapY(mapy + moveY);
+            //everything on the map moved, so lets move the player back
+            player.x -= moveX;
+            player.y -= moveY;
         }
     }
 

@@ -99,6 +99,13 @@ Author: William Kendall
         return sprite;
     };
 
+    GraphicsManager.prototype.getWidth = function () {
+        return _application.renderer.width;
+    };
+    GraphicsManager.prototype.getHeight = function () {
+        return _application.renderer.height;
+    };
+
     GraphicsManager.prototype.addChild = function (child) {
         _application.stage.addChild(child);
     };

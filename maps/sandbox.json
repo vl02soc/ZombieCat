@@ -128,13 +128,13 @@
           "gid": 5,
           "height": 64,
           "id": 1,
-          "name": "",
+          "name": "PlayerSprite",
           "rotation": 0,
           "type": "",
           "visible": true,
           "width": 64,
           "x": 128,
-          "y": 193
+          "y": 192
         }
       ],
       "opacity": 1,

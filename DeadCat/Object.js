@@ -11,7 +11,7 @@ Author: William Kendall
 
     Layer.prototype.texture = null;
 
-
+    Layer.prototype.name = "";
     Layer.prototype.properties = {};//loads from Tiled JSON file
     Layer.prototype.properties.static = false;
 
@@ -20,6 +20,7 @@ Author: William Kendall
     function Layer() {
         PIXI.Container.call(this);
         _self = this;
+
     }
 
     $w._DeadCat_Layer = Layer;
@@ -30,6 +31,7 @@ Author: William Kendall
     gObject.prototype = Object.create(PIXI.Sprite.prototype);
     gObject.prototype.constructor = gObject;
 
+    gObject.prototype.name = "";
     gObject.prototype.gid = 0;
     gObject.prototype.properties = null;
 
