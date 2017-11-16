@@ -87,6 +87,9 @@ Author: William Kendall
 
     GraphicsManager.prototype.spriteFromLayer = function (layer) {
         //slow
+        //this function takes a container and makes a sprite from it.
+        //rendering is MUCH faster using only one texture
+        //also solves texture bleeding
         var brt = new PIXI.BaseRenderTexture(layer.width, layer.height);
         var rt = new PIXI.RenderTexture(brt);
         _application.renderer.render(layer, rt);

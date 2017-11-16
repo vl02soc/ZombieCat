@@ -17,8 +17,35 @@
 <div id="display"></div>
 <script type="text/javascript">
 
-    var game = new DeadCat("maps/sandbox.json");
+    var game = new DeadCat("maps/sandbox.json", setup, gameloop);
 
+    function setup() {
+
+    }
+
+    function gameloop(game, delta) {
+        var mvDelta = delta * 5;
+        var moveX = 0;
+        var moveY = 0;
+
+        if (game.KeyboardManager.keysPressed[87] == true)
+            moveY += mvDelta;
+        if (game.KeyboardManager.keysPressed[83] == true)
+            moveY -= mvDelta;
+        if (game.KeyboardManager.keysPressed[65] == true)
+            moveX += mvDelta;
+        if (game.KeyboardManager.keysPressed[68] == true)
+            moveX -= mvDelta;
+
+        if (moveX != 0 && moveY != 0) {
+            moveX = moveX / 1.3;
+            moveY = moveY / 1.3;
+        }
+        if (moveX != 0 || moveY != 0) {
+            game.LogicManager.setMapX(game.LogicManager.getMapX() + moveX);
+            game.LogicManager.setMapY(game.LogicManager.getMapY() + moveY);
+        }
+    }
 
 </script>
 </body>

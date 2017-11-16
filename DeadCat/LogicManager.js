@@ -1,23 +1,40 @@
 /*
 Team Zombie Cat
-Dead Cat Game Engine - Game Logic (extend this class)
+Dead Cat Game Engine - Game Logic
 
 Author: William Kendall
 */
 
-!function ($w, KeyboardManager, dcLayer, dcObject) {
-    var _map = null;
-    var _objects = null;
-    var _KeyboardManager = null;
+!function ($w, dcLayer, dcObject) {
+    var _layers = null;
+    var _mapX = 0;
+    var _mapY = 0;
 
-    function LogicManager(mapLayer, objectLayer) {
-        _KeyboardManager = new KeyboardManager();
-        _map = mapLayer;
-        _objects = objectLayer;
 
+    function LogicManager(layers) {
+        _layers = layers;
     }
 
-    LogicManager.prototype.getObjectByName = function () {
+    LogicManager.prototype.getMapX = function (x) {
+        return _mapX;
+    };
+    LogicManager.prototype.getMapY = function (y) {
+        return _mapY;
+    };
+    LogicManager.prototype.setMapX = function (x) {
+        _mapX = x;
+        for (layer in _layers) {
+            _layers[layer].x = x;
+        }
+    };
+    LogicManager.prototype.setMapY = function (y) {
+        _mapY = y;
+        for (layer in _layers) {
+            _layers[layer].y = y;
+        }
+    };
+
+    LogicManager.prototype.getObjectByName = function (layer) {
 //TODO: stuff here
     };
 
@@ -27,28 +44,9 @@ Author: William Kendall
     };
 
     LogicManager.prototype.update = function (delta) {
-        //temp movement functionality
-        var mvDelta = delta * 5;
-        var moveX = 0;
-        var moveY = 0;
 
-        if (_KeyboardManager.keysPressed[87] == true)
-            moveY += mvDelta;
-        if (_KeyboardManager.keysPressed[83] == true)
-            moveY -= mvDelta;
-        if (_KeyboardManager.keysPressed[65] == true)
-            moveX += mvDelta;
-        if (_KeyboardManager.keysPressed[68] == true)
-            moveX -= mvDelta;
-
-        if (moveX != 0 && moveY != 0) {
-            moveX = moveX / 1.3;
-            moveY = moveY / 1.3;
-        }
-        _map.y += moveY;
-        _map.x += moveX;
     };
 
 
     $w._DeadCat_LogicManager = LogicManager;
-}(this, _DeadCat_KeyboardManager, _DeadCat_Layer, _DeadCat_Object);
+}(this, _DeadCat_Layer, _DeadCat_Object);
