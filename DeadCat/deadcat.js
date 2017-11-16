@@ -96,13 +96,15 @@ Author: William Kendall
         if (gml === false) {
             //setup
 
+            //bind all the textures to their objects
+            _GraphicsManager.bindTextures(mapLayer);
+            _GraphicsManager.bindTextures(objectLayer);
+
             //build static layers ( no animation )
             if (mapLayer.properties.static == true) {
                 //should remove the layer and add a texture for the hole layer
-                _GraphicsManager.bindTextures(mapLayer);
-                _GraphicsManager.bindTextures(objectLayer);
-                mapSprite = _GraphicsManager.spriteFromLayer(mapLayer);
-                _GraphicsManager.addChild(mapSprite);
+                mapLayer = _GraphicsManager.spriteFromLayer(mapLayer);
+                _GraphicsManager.addChild(mapLayer);
             }
             else {
                 _GraphicsManager.addChild(mapLayer);
@@ -111,7 +113,7 @@ Author: William Kendall
 
             _GraphicsManager.addChild(objectLayer);
             gml = true; //game all setup
-            _logicManager = new LogicManager(mapSprite, objectLayer);
+            _logicManager = new LogicManager(mapLayer, objectLayer);
         }
 
         //begin game loop
