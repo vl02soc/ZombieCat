@@ -42,8 +42,7 @@ Author: William Kendall
 
 
         //load image(s)
-        //TODO: fix static assets location
-        var imagesLocation = "maps/";
+        var imagesLocation = "maps/"; //TODO: fix static assets location
         for (var ts = 0; ts < _map.tilesets.length; ts++) {
             //loader: resource name, resource location
             PIXI.loader.add(_map.tilesets[ts].image, imagesLocation + _map.tilesets[ts].image);

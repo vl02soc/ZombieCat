@@ -52,7 +52,6 @@ Author: William Kendall
 
     LogicManager.prototype.getObjectByNameInLayer = function (layer, name) {
         for (childObj in layer.children) {
-            console.log(layer.children[childObj].name);
             if (layer.children[childObj].name == name)
                 return layer.children[childObj];
         }
