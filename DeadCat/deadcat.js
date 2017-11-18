@@ -119,7 +119,8 @@ Author: William Kendall
                     var newSprite = _GraphicsManager.spriteFromLayer(_layers[layer]);
                     newSprite.staticLayer = true;
                     newSprite.layer = _layers[layer];
-                    _GraphicsManager.addChild(newSprite);
+                    _layers[layer] = newSprite;
+                    _GraphicsManager.addChild(_layers[layer]);
                 }
                 else {
                     _GraphicsManager.addChild(_layers[layer]);
