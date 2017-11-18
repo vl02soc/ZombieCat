@@ -116,8 +116,10 @@ Author: William Kendall
                 //build static layers ( no animation )
                 if (_layers[layer].properties.static == true) {
                     //should remove the layer and add a texture for the hole layer
-                    _layers[layer] = _GraphicsManager.spriteFromLayer(_layers[layer]);
-                    _GraphicsManager.addChild(_layers[layer]);
+                    var newSprite = _GraphicsManager.spriteFromLayer(_layers[layer]);
+                    newSprite.staticLayer = true;
+                    newSprite.layer = _layers[layer];
+                    _GraphicsManager.addChild(newSprite);
                 }
                 else {
                     _GraphicsManager.addChild(_layers[layer]);

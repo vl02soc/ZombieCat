@@ -76,7 +76,7 @@ Author: William Kendall
     };
 
     LogicManager.prototype.update = function (delta) {
-
+        //update x,y of static layers
     };
 
 
