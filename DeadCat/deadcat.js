@@ -78,6 +78,7 @@ Author: William Kendall
                         newTile.width = _map.tilewidth;
                         newTile.height = _map.tileheight;
                         newTile.gid = layer.data[layerY * layer.width + layerX];
+                        _engine.updateObject(newTile);
                         newLayer.addChild(newTile);
 
                         posX += _map.tilewidth;
