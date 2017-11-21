@@ -20,10 +20,13 @@
     var game = new DeadCat("maps/sandbox.json", setup, gameloop);
 
     var player = null;
+    var oldPlayerGid = 0;
+    var animationDelta = 0;
     function setup() {
         var playerlayer = game.LogicManager.getLayerByName("Player");
         player = game.LogicManager.getObjectByNameInLayer(playerlayer, "PlayerSprite");
         game.LogicManager.centerObject(player);
+        oldPlayerGid = player.gid;
     }
 
 
@@ -53,6 +56,12 @@
             //everything on the map moved, so lets move the player back
             player.x -= moveX;
             player.y -= moveY;
+        }
+        animationDelta += delta;
+        if (animationDelta > 2) {
+            animationDelta = 0;
+            player.gid += 1;
+            if (player.gid == oldPlayerGid + 7) player.gid = oldPlayerGid;
         }
     }
 

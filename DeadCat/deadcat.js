@@ -135,6 +135,9 @@ Author: William Kendall
         //begin game loop
         _engine.LogicManager.update(delta);
         _gameupdate(_engine, delta);
+
+        //rebind any changed gid(s)
+        _GraphicsManager.bindTextures(_layers[layer]);
     }
 
     $w.DeadCat = DeadCat;

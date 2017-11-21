@@ -32,7 +32,8 @@ Author: William Kendall
     gObject.prototype.constructor = gObject;
 
     gObject.prototype.name = "";
-    gObject.prototype.gid = 0;
+    gObject.prototype.gid = 0; //set gid
+    gObject.prototype.gidLast = 0; //changes in gid
     gObject.prototype.properties = null;
 
     function gObject() {

@@ -80,7 +80,10 @@ Author: William Kendall
     GraphicsManager.prototype.bindTextures = function (layer) {
         for (var i = 0; i < layer.children.length; i++) {
             var obj = layer.children[i];
-            if (obj.gid != 0) obj.texture = _textures[obj.gid];
+            if (obj.gid != 0 && obj.gid != obj.gidLast) {
+                obj.texture = _textures[obj.gid];
+                obj.gidLast = obj.gidLast;
+            }
         }
     };
 
