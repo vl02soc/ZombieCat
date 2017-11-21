@@ -36,6 +36,16 @@ Author: William Kendall
     gObject.prototype.gidLast = 0; //changes in gid
     gObject.prototype.properties = null;
 
+    gObject.prototype.visible = false;
+
+    gObject.prototype.collision = {};
+    gObject.prototype.collision.x = 0;
+    gObject.prototype.collision.y = 0;
+    gObject.prototype.collision.width = 0;
+    gObject.prototype.collision.height = 0;
+
+
+
     function gObject() {
         PIXI.Sprite.call(this);
         //constructor

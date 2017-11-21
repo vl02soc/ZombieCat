@@ -13,6 +13,7 @@ Author: William Kendall
     var _engine;
     var _map = null;    //this is the Tiled JSON object
     var _layers = null;
+    var _gidInformation = null;
 
     var _gameSetup = null;
     var _gameupdate = null;
@@ -22,14 +23,16 @@ Author: William Kendall
         _engine.Utils = new Utils();
         _engine.KeyboardManager = new KeyboardManager();
 
-        //TODO: test that the map was downloaded, or if an error (this is done by editing utils.js to return the error)
-        _engine.Utils.loadJSON(mapFile, mapLoaded);
-
         _layers = [];
+        _gidInformation = [];
 
 
         _gameSetup = gameSetup;
         _gameupdate = gameLoop;
+
+
+        //TODO: test that the map was downloaded, or if an error (this is done by editing utils.js to return the error)
+        _engine.Utils.loadJSON(mapFile, mapLoaded);
 
     }
 
@@ -38,8 +41,18 @@ Author: William Kendall
         _map = rMap;
 
         console.log(_map); //for debugging reasons
-        //TODO: create objects, load tilesets
+
+        //load tilesets
         _GraphicsManager = new GraphicsManager(_map);
+        for (var ts = 0; ts < _map.tilesets.length; ts++) {
+            var tileset = _map.tilesets[ts];
+
+            if (tileset.hasOwnProperty("tiles"))
+                for (tile in tileset.tiles) {
+                    _gidInformation[parseInt(tile) + _map.tilesets[ts].firstgid] = tileset.tiles[tile];
+                }
+        }
+
 
         //load layers
         for (var lay = 0; lay < _map.layers.length; lay++) {
@@ -80,11 +93,14 @@ Author: William Kendall
                     var newObj = new dcObject();
                     if (obj.hasOwnProperty("name"))
                         newObj.name = obj.name;
+                    newObj.visible = obj.visible;
                     newObj.x = obj.x;
                     newObj.y = obj.y - obj.height; //tiled objects are reference from their bottom edge
                     newObj.width = obj.width;
                     newObj.height = obj.height;
                     newObj.gid = obj.gid;
+
+                    _engine.updateObject(newObj);
                     newLayer.addChild(newObj);
                 }
             }
@@ -97,7 +113,6 @@ Author: William Kendall
 
     }
 
-    //TODO: this is a temp example of some movement
     var gml = false;
 
     function _update(delta) {
@@ -130,15 +145,32 @@ Author: William Kendall
             gml = true; //game all setup
             _engine.LogicManager = new LogicManager(_layers, _GraphicsManager);
             _gameSetup();
+
         }
 
         //begin game loop
         _engine.LogicManager.update(delta);
         _gameupdate(_engine, delta);
 
-        //rebind any changed gid(s)
-        _GraphicsManager.bindTextures(_layers[layer]);
     }
+
+
+    DeadCat.prototype.updateObject = function (gObject) {
+        if (gObject.gid != gObject.gidLast) {
+            gObject.gidLast = gObject.gid;
+            _GraphicsManager.bindTexture(gObject, gObject.gid);
+            if (_gidInformation[gObject.gid])
+                if (_gidInformation[gObject.gid].hasOwnProperty("objectgroup"))
+                    if (_gidInformation[gObject.gid].objectgroup.hasOwnProperty("objects")) {
+                        //only use first object
+                        gObject.collision.x = gObject.x + _gidInformation[gObject.gid].objectgroup.objects[0].x;
+                        gObject.collision.y = gObject.y + _gidInformation[gObject.gid].objectgroup.objects[0].y;
+                        gObject.collision.width = _gidInformation[gObject.gid].objectgroup.objects[0].width;
+                        gObject.collision.height = _gidInformation[gObject.gid].objectgroup.objects[0].height;
+                    }
+        }
+    };
+
 
     $w.DeadCat = DeadCat;
 

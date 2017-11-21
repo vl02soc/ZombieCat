@@ -78,13 +78,18 @@ Author: William Kendall
     }
 
     GraphicsManager.prototype.bindTextures = function (layer) {
+        //set the texture of all sprites in a layer
         for (var i = 0; i < layer.children.length; i++) {
             var obj = layer.children[i];
-            if (obj.gid != 0 && obj.gid != obj.gidLast) {
+            if (obj.gid != 0 && obj.visible == true) {
                 obj.texture = _textures[obj.gid];
-                obj.gidLast = obj.gidLast;
             }
         }
+    };
+
+    GraphicsManager.prototype.bindTexture = function (gObject, gid) {
+        if (gid != 0 && gObject.visible == true)
+            gObject.texture = _textures[gid];
     };
 
     GraphicsManager.prototype.spriteFromLayer = function (layer) {

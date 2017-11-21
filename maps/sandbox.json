@@ -129,12 +129,30 @@
           "height": 64,
           "id": 1,
           "name": "PlayerSprite",
+          "properties": {
+            "onMove": "play, some_sound"
+          },
+          "propertytypes": {
+            "onMove": "string"
+          },
           "rotation": 0,
           "type": "",
           "visible": true,
           "width": 64,
           "x": 128,
           "y": 192
+        },
+        {
+          "gid": 109,
+          "height": 64,
+          "id": 5,
+          "name": "",
+          "rotation": 0,
+          "type": "",
+          "visible": false,
+          "width": 64,
+          "x": 214,
+          "y": 260
         }
       ],
       "opacity": 1,
@@ -145,7 +163,7 @@
       "y": 0
     }
   ],
-  "nextobjectid": 4,
+  "nextobjectid": 6,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tileheight": 32,
@@ -183,14 +201,14 @@
             "objects": [
               {
                 "height": 17,
-                "id": 1,
-                "name": "",
-                "rotation": 45,
+                "id": 2,
+                "name": "This is the collision area",
+                "rotation": 0,
                 "type": "",
                 "visible": true,
-                "width": 35,
-                "x": 14,
-                "y": 46
+                "width": 34,
+                "x": 15,
+                "y": 48
               }
             ],
             "opacity": 1,
@@ -200,6 +218,46 @@
             "x": 0,
             "y": 0
           }
+        },
+        "104": {
+          "animation": [
+            {
+              "duration": 100,
+              "tileid": 104
+            },
+            {
+              "duration": 100,
+              "tileid": 105
+            },
+            {
+              "duration": 100,
+              "tileid": 106
+            },
+            {
+              "duration": 100,
+              "tileid": 107
+            },
+            {
+              "duration": 100,
+              "tileid": 108
+            },
+            {
+              "duration": 100,
+              "tileid": 109
+            },
+            {
+              "duration": 100,
+              "tileid": 110
+            },
+            {
+              "duration": 100,
+              "tileid": 111
+            },
+            {
+              "duration": 100,
+              "tileid": 112
+            }
+          ]
         }
       },
       "tilewidth": 64

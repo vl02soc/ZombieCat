@@ -61,7 +61,12 @@
         if (animationDelta > 2) {
             animationDelta = 0;
             player.gid += 1;
-            if (player.gid == oldPlayerGid + 7) player.gid = oldPlayerGid;
+            if (player.gid == oldPlayerGid + 7)
+                player.gid = oldPlayerGid;
+
+            game.updateObject(player);
+            //since the collision of the player just got updated on the gui change
+            //you can do a collision test after
         }
     }
 
