@@ -22,11 +22,17 @@
     var player = null;
     var oldPlayerGid = 0;
     var animationDelta = 0;
+    var playerAnimation = {};
     function setup() {
         var playerlayer = game.LogicManager.getLayerByName("Player");
         player = game.LogicManager.getObjectByNameInLayer(playerlayer, "PlayerSprite");
         game.LogicManager.centerObject(player);
         oldPlayerGid = player.gid;
+
+        for (ani in playerlayer.children) {
+            playerAnimation[playerlayer.children[ani].name] = playerlayer.children[ani].gid;
+        }
+        console.log(playerAnimation);
     }
 
 
@@ -34,16 +40,24 @@
         var mvDelta = delta * 5;
         var moveX = 0;
         var moveY = 0;
+        player.gid = oldPlayerGid;
 
-        if (game.KeyboardManager.keysPressed[87] == true)
+        if (game.KeyboardManager.keysPressed[87] == true) {
             moveY += mvDelta;
-        if (game.KeyboardManager.keysPressed[83] == true)
+            player.gid = playerAnimation.move_forward;
+        }
+        if (game.KeyboardManager.keysPressed[83] == true) {
             moveY -= mvDelta;
-        if (game.KeyboardManager.keysPressed[65] == true)
+            player.gid = playerAnimation.move_back;
+        }
+        if (game.KeyboardManager.keysPressed[65] == true) {
             moveX += mvDelta;
-        if (game.KeyboardManager.keysPressed[68] == true)
+            player.gid = playerAnimation.move_left;
+        }
+        if (game.KeyboardManager.keysPressed[68] == true) {
             moveX -= mvDelta;
-
+            player.gid = playerAnimation.move_right;
+        }
         if (moveX != 0 && moveY != 0) {
             moveX = moveX / 1.3;
             moveY = moveY / 1.3;
@@ -57,17 +71,19 @@
             player.x -= moveX;
             player.y -= moveY;
         }
-        animationDelta += delta;
-        if (animationDelta > 2) {
-            animationDelta = 0;
-            player.gid += 1;
-            if (player.gid == oldPlayerGid + 7)
-                player.gid = oldPlayerGid;
+        /*
+                animationDelta += delta;
+                if (animationDelta > 2) {
+                    animationDelta = 0;
+                    player.gid += 1;
+                    if (player.gid == oldPlayerGid + 7)
+                        player.gid = oldPlayerGid;
+                }
+        */
+        game.updateObject(player);
+        //since the collision of the player just got updated on the gui change
+        //you can do a collision test after
 
-            game.updateObject(player);
-            //since the collision of the player just got updated on the gui change
-            //you can do a collision test after
-        }
     }
 
 </script>

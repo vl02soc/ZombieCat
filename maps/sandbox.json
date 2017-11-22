@@ -121,7 +121,6 @@
     },
     {
       "draworder": "topdown",
-      "height": 100,
       "name": "Player",
       "objects": [
         {
@@ -146,26 +145,62 @@
           "gid": 109,
           "height": 64,
           "id": 5,
-          "name": "",
+          "name": "move_forward",
           "rotation": 0,
           "type": "",
           "visible": false,
           "width": 64,
-          "x": 214,
-          "y": 260
+          "x": 96,
+          "y": -160
+        },
+        {
+          "gid": 135,
+          "height": 64,
+          "id": 17,
+          "name": "move_back",
+          "rotation": 0,
+          "type": "",
+          "visible": false,
+          "width": 64,
+          "x": 96,
+          "y": -32
+        },
+        {
+          "gid": 122,
+          "height": 64,
+          "id": 18,
+          "name": "move_left",
+          "rotation": 0,
+          "type": "",
+          "visible": false,
+          "width": 64,
+          "x": 0,
+          "y": -128
+        },
+        {
+          "gid": 148,
+          "height": 64,
+          "id": 19,
+          "name": "move_right",
+          "rotation": 0,
+          "type": "",
+          "visible": false,
+          "width": 64,
+          "x": 192,
+          "y": -128
         }
       ],
       "opacity": 1,
       "type": "objectgroup",
       "visible": true,
-      "width": 100,
       "x": 0,
       "y": 0
     }
   ],
-  "nextobjectid": 6,
+  "nextobjectid": 20,
   "orientation": "orthogonal",
   "renderorder": "right-down",
+  "tiledversion": "1.0.2",
   "tileheight": 32,
   "tilesets": [
     {
@@ -183,7 +218,6 @@
         "0": {
           "objectgroup": {
             "draworder": "index",
-            "height": 0,
             "name": "",
             "objects": [
               {
@@ -201,7 +235,6 @@
             "opacity": 1,
             "type": "objectgroup",
             "visible": true,
-            "width": 0,
             "x": 0,
             "y": 0
           }
@@ -224,7 +257,6 @@
         "0": {
           "objectgroup": {
             "draworder": "index",
-            "height": 0,
             "name": "",
             "objects": [
               {
@@ -242,7 +274,6 @@
             "opacity": 1,
             "type": "objectgroup",
             "visible": true,
-            "width": 0,
             "x": 0,
             "y": 0
           }
@@ -286,12 +317,133 @@
               "tileid": 112
             }
           ]
+        },
+        "117": {
+          "animation": [
+            {
+              "duration": 100,
+              "tileid": 117
+            },
+            {
+              "duration": 100,
+              "tileid": 118
+            },
+            {
+              "duration": 100,
+              "tileid": 119
+            },
+            {
+              "duration": 100,
+              "tileid": 120
+            },
+            {
+              "duration": 100,
+              "tileid": 121
+            },
+            {
+              "duration": 100,
+              "tileid": 122
+            },
+            {
+              "duration": 100,
+              "tileid": 123
+            },
+            {
+              "duration": 100,
+              "tileid": 124
+            },
+            {
+              "duration": 100,
+              "tileid": 125
+            }
+          ]
+        },
+        "130": {
+          "animation": [
+            {
+              "duration": 100,
+              "tileid": 130
+            },
+            {
+              "duration": 100,
+              "tileid": 131
+            },
+            {
+              "duration": 100,
+              "tileid": 132
+            },
+            {
+              "duration": 100,
+              "tileid": 133
+            },
+            {
+              "duration": 100,
+              "tileid": 134
+            },
+            {
+              "duration": 100,
+              "tileid": 135
+            },
+            {
+              "duration": 100,
+              "tileid": 136
+            },
+            {
+              "duration": 100,
+              "tileid": 137
+            },
+            {
+              "duration": 100,
+              "tileid": 138
+            }
+          ]
+        },
+        "143": {
+          "animation": [
+            {
+              "duration": 100,
+              "tileid": 143
+            },
+            {
+              "duration": 100,
+              "tileid": 144
+            },
+            {
+              "duration": 100,
+              "tileid": 145
+            },
+            {
+              "duration": 100,
+              "tileid": 146
+            },
+            {
+              "duration": 100,
+              "tileid": 147
+            },
+            {
+              "duration": 100,
+              "tileid": 148
+            },
+            {
+              "duration": 100,
+              "tileid": 149
+            },
+            {
+              "duration": 100,
+              "tileid": 150
+            },
+            {
+              "duration": 100,
+              "tileid": 151
+            }
+          ]
         }
       },
       "tilewidth": 64
     }
   ],
   "tilewidth": 32,
+  "type": "map",
   "version": 1,
   "width": 10
 }

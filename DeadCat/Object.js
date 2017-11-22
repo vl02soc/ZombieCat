@@ -44,7 +44,8 @@ Author: William Kendall
     gObject.prototype.collision.width = 0;
     gObject.prototype.collision.height = 0;
 
-
+    gObject.prototype.animationFrame = -1;
+    gObject.prototype.animationTime = 0;
 
     function gObject() {
         PIXI.Sprite.call(this);

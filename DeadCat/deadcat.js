@@ -18,6 +18,8 @@ Author: William Kendall
     var _gameSetup = null;
     var _gameupdate = null;
 
+    var _gameDelta = 0;
+
     function DeadCat(mapFile, gameSetup, gameLoop) {
         _engine = this;
         _engine.Utils = new Utils();
@@ -50,6 +52,7 @@ Author: William Kendall
             if (tileset.hasOwnProperty("tiles"))
                 for (tile in tileset.tiles) {
                     _gidInformation[parseInt(tile) + _map.tilesets[ts].firstgid] = tileset.tiles[tile];
+                    _gidInformation[parseInt(tile) + _map.tilesets[ts].firstgid].firstgid = parseInt(_map.tilesets[ts].firstgid);
                 }
         }
 
@@ -133,7 +136,7 @@ Author: William Kendall
                 if (_layers[layer].properties.static == true) {
                     //should remove the layer and add a texture for the hole layer
                     var newSprite = _GraphicsManager.spriteFromLayer(_layers[layer]);
-                    newSprite.staticLayer = true;
+                    //newSprite.properties.static = true;
                     newSprite.layer = _layers[layer];
                     _layers[layer] = newSprite;
                     _GraphicsManager.addChild(_layers[layer]);
@@ -150,6 +153,7 @@ Author: William Kendall
         }
 
         //begin game loop
+        _gameDelta = delta;
         _engine.LogicManager.update(delta);
         _gameupdate(_engine, delta);
 
@@ -159,8 +163,7 @@ Author: William Kendall
     DeadCat.prototype.updateObject = function (gObject) {
         if (gObject.gid != gObject.gidLast) {
             gObject.gidLast = gObject.gid;
-            _GraphicsManager.bindTexture(gObject, gObject.gid);
-            if (_gidInformation[gObject.gid])
+            if (_gidInformation[gObject.gid]) {//collision
                 if (_gidInformation[gObject.gid].hasOwnProperty("objectgroup"))
                     if (_gidInformation[gObject.gid].objectgroup.hasOwnProperty("objects")) {
                         //only use first object
@@ -169,7 +172,31 @@ Author: William Kendall
                         gObject.collision.width = _gidInformation[gObject.gid].objectgroup.objects[0].width;
                         gObject.collision.height = _gidInformation[gObject.gid].objectgroup.objects[0].height;
                     }
+            }
         }
+
+        //animation or set texture
+        if (_gidInformation[gObject.gid])
+            if (_gidInformation[gObject.gid].hasOwnProperty("animation")) {
+                gObject.animationTime += _gameDelta * 100;
+                if (gObject.animationFrame == -1 || gObject.animationTime >= _gidInformation[gObject.gid].animation[gObject.animationFrame].duration) {
+                    gObject.animationTime = 0;
+                    gObject.animationFrame += 1;
+                    if (_gidInformation[gObject.gid].animation.length === gObject.animationFrame)
+                        gObject.animationFrame = 0;
+
+                    var aniId = _gidInformation[gObject.gid].animation[gObject.animationFrame].tileid + _gidInformation[gObject.gid].firstgid;
+                    _GraphicsManager.bindTexture(gObject, aniId);
+                }
+            }
+            else {
+                gObject.animationFrame = -1; //disable
+                gObject.animationTime = 0;
+                _GraphicsManager.bindTexture(gObject, gObject.gid);
+            }
+
+
+
     };
 
 
