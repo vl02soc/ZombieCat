@@ -80,5 +80,33 @@ Author: William Kendall
     };
 
 
+    LogicManager.prototype.hitTest = function (object1, object2) {
+        var a = {};
+        a.x = object1.x + object1.collision.x;
+        a.y = object1.y + object1.collision.x;
+        a.width = object1.collision.width;
+        a.height = object1.collision.height;
+        var b = {};
+        b.x = object2.x + object2.collision.x;
+        b.y = object2.y + object2.collision.y;
+        b.width = object2.collision.width;
+        b.height = object2.collision.height;
+        return a.x + a.width > b.x && a.x < b.x + b.width && a.y + a.height > b.y && a.y < b.y + b.height;
+    };
+
+    LogicManager.prototype.hitTestLayer = function (obj, layer) {
+        var objs = [];
+        if (layer.properties.static == true)
+            for (tile in layer.staticLayerChildren) {
+                if (layer.staticLayerChildren[tile].collision.hasCollision) {
+                    if (_self.hitTest(obj, layer.staticLayerChildren[tile]) == true) {
+                        //console.log(layer.staticLayerChildren[tile].collision);
+                        return true;
+                    }
+                }
+            }
+        return false;
+    };
+
     $w._DeadCat_LogicManager = LogicManager;
 }(this, _DeadCat_Layer, _DeadCat_Object);

@@ -135,10 +135,14 @@ Author: William Kendall
                 //build static layers ( no animation )
                 if (_layers[layer].properties.static == true) {
                     //should remove the layer and add a texture for the hole layer
-                    var newSprite = _GraphicsManager.spriteFromLayer(_layers[layer]);
+                    _layers[layer] = _GraphicsManager.spriteFromLayer(_layers[layer]);
+                    /*
                     //newSprite.properties.static = true;
                     newSprite.layer = _layers[layer];
-                    _layers[layer] = newSprite;
+                    _layers[layer] =new dcLayer();
+                    _layers[layer].name = oldLayer.name;
+                    _layers[layer].addChild( newSprite );
+                    */
                     _GraphicsManager.addChild(_layers[layer]);
                 }
                 else {
@@ -167,14 +171,14 @@ Author: William Kendall
                 if (_gidInformation[gObject.gid].hasOwnProperty("objectgroup"))
                     if (_gidInformation[gObject.gid].objectgroup.hasOwnProperty("objects")) {
                         //only use first object
-                        gObject.collision.x = gObject.x + _gidInformation[gObject.gid].objectgroup.objects[0].x;
-                        gObject.collision.y = gObject.y + _gidInformation[gObject.gid].objectgroup.objects[0].y;
                         gObject.collision.width = _gidInformation[gObject.gid].objectgroup.objects[0].width;
                         gObject.collision.height = _gidInformation[gObject.gid].objectgroup.objects[0].height;
+                        gObject.collision.x = _gidInformation[gObject.gid].objectgroup.objects[0].x;
+                        gObject.collision.y = _gidInformation[gObject.gid].objectgroup.objects[0].y - gObject.collision.height;
+                        gObject.collision.hasCollision = true;
                     }
             }
         }
-
         //animation or set texture
         if (_gidInformation[gObject.gid])
             if (_gidInformation[gObject.gid].hasOwnProperty("animation")) {

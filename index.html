@@ -23,8 +23,15 @@
     var oldPlayerGid = 0;
     var animationDelta = 0;
     var playerAnimation = {};
+    var mapLayer = null;
+
     function setup() {
+        mapLayer = game.LogicManager.getLayerByName("Main");
+        console.log(mapLayer);
+        console.log(mapLayer.staticLayerChildren[0]);
+        console.log(mapLayer.staticLayerChildren[0].collision);
         var playerlayer = game.LogicManager.getLayerByName("Player");
+
         player = game.LogicManager.getObjectByNameInLayer(playerlayer, "PlayerSprite");
         game.LogicManager.centerObject(player);
         oldPlayerGid = player.gid;
@@ -32,7 +39,6 @@
         for (ani in playerlayer.children) {
             playerAnimation[playerlayer.children[ani].name] = playerlayer.children[ani].gid;
         }
-        console.log(playerAnimation);
     }
 
 
@@ -41,6 +47,9 @@
         var moveX = 0;
         var moveY = 0;
         player.gid = oldPlayerGid;
+
+        var oldx = player.x;
+        var oldy = player.y;
 
         if (game.KeyboardManager.keysPressed[87] == true) {
             moveY += mvDelta;
@@ -83,6 +92,12 @@
         game.updateObject(player);
         //since the collision of the player just got updated on the gui change
         //you can do a collision test after
+        //console.log(game.LogicManager.hitTestLayer(player, mapLayer));
+        if (game.LogicManager.hitTestLayer(player, mapLayer)) {
+            player.x = oldx;
+            player.y = oldy;
+        }
+
 
     }
 

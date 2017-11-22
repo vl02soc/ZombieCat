@@ -102,8 +102,12 @@ Author: William Kendall
         _application.renderer.render(layer, rt);
         var sprite = new dcObject();
         sprite.texture = rt;
-        sprite.properties = layer.properties;
-        return sprite;
+        while (layer.children[0]) {
+            layer.staticLayerChildren.push(layer.children[0]);
+            layer.removeChild(layer.children[0]);
+        }
+        layer.addChild(sprite);
+        return layer;
     };
 
     GraphicsManager.prototype.getWidth = function () {

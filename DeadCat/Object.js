@@ -10,16 +10,21 @@ Author: William Kendall
     Layer.prototype.constructor = Layer;
 
     Layer.prototype.texture = null;
+    Layer.prototype.staticLayerChildren = null;
 
     Layer.prototype.name = "";
-    Layer.prototype.properties = {};//loads from Tiled JSON file
-    Layer.prototype.properties.static = false;
+    Layer.prototype.properties = null;//loads from Tiled JSON file
 
     var _self = null;
 
     function Layer() {
         PIXI.Container.call(this);
         _self = this;
+        this.staticLayerChildren = [];
+
+        this.properties = {};
+        this.properties.static = false;
+
 
     }
 
@@ -38,11 +43,8 @@ Author: William Kendall
 
     gObject.prototype.visible = false;
 
-    gObject.prototype.collision = {};
-    gObject.prototype.collision.x = 0;
-    gObject.prototype.collision.y = 0;
-    gObject.prototype.collision.width = 0;
-    gObject.prototype.collision.height = 0;
+    gObject.prototype.collision = null;
+
 
     gObject.prototype.animationFrame = -1;
     gObject.prototype.animationTime = 0;
@@ -50,6 +52,13 @@ Author: William Kendall
     function gObject() {
         PIXI.Sprite.call(this);
         //constructor
+
+        this.collision = {};
+        this.collision.hasCollision = false;
+        this.collision.x = 0;
+        this.collision.y = 0;
+        this.collision.width = 0;
+        this.collision.height = 0;
     }
 
     $w._DeadCat_Object = gObject;
