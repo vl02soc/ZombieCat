@@ -74,30 +74,22 @@
         if (moveX != 0 || moveY != 0) {
             var mapx = game.LogicManager.getMapX();
             var mapy = game.LogicManager.getMapY();
-            //game.LogicManager.setMapX(mapx + moveX);
-            //game.LogicManager.setMapY(mapy + moveY);
+            game.LogicManager.setMapX(mapx + moveX);
+            game.LogicManager.setMapY(mapy + moveY);
             //everything on the map moved, so lets move the player back
             player.x -= moveX;
             player.y -= moveY;
-        }
-        /*
-                animationDelta += delta;
-                if (animationDelta > 2) {
-                    animationDelta = 0;
-                    player.gid += 1;
-                    if (player.gid == oldPlayerGid + 7)
-                        player.gid = oldPlayerGid;
-                }
-        */
-        game.updateObject(player);
-        //since the collision of the player just got updated on the gui change
-        //you can do a collision test after
-        //console.log(game.LogicManager.hitTestLayer(player, mapLayer));
-        if (game.LogicManager.hitTestLayer(player, mapLayer)) {
-            player.x = oldx;
-            player.y = oldy;
-        }
 
+            game.updateObject(player);
+            //since the collision of the player just got updated on the gui change
+            //you can do a collision test after
+            if (game.LogicManager.hitTestLayer(player, mapLayer)) {
+                player.x = oldx;
+                player.y = oldy;
+                game.LogicManager.setMapX(mapx);
+                game.LogicManager.setMapY(mapy);
+            }
+        }
 
     }
 
