@@ -109,7 +109,11 @@ Author: William Kendall
                     //not sure if this makes hittest any faster
                     //a gpu would be great at this
                     if (Math.sqrt(Math.pow(layer.staticLayerChildren[tile].x - obj.x, 2) + Math.pow(layer.staticLayerChildren[tile].y - obj.y, 2)) < obj.width + obj.height)
-                        if (_self.hitTest(obj, layer.staticLayerChildren[tile]) == true) {
+                        if ((obj.x + obj.collision.x) + obj.collision.width > (layer.staticLayerChildren[tile].x + layer.staticLayerChildren[tile].collision.x) &&
+                            (obj.x + obj.collision.x) < (layer.staticLayerChildren[tile].x + layer.staticLayerChildren[tile].collision.x) + layer.staticLayerChildren[tile].collision.width &&
+                            (obj.y + obj.collision.x ) + obj.collision.height > (layer.staticLayerChildren[tile].y + layer.staticLayerChildren[tile].collision.y) &&
+                            (obj.y + obj.collision.x ) < (layer.staticLayerChildren[tile].y + layer.staticLayerChildren[tile].collision.y) + layer.staticLayerChildren[tile].collision.height == true) {
+//                        if (_self.hitTest(obj, layer.staticLayerChildren[tile]) == true) {
                             //console.log(layer.staticLayerChildren[tile].collision);
                             return true;
                         }
