@@ -120,6 +120,8 @@ Author: William Kendall
     var gml = false;
 
     function _update(delta) {
+        if (delta > 2) delta = 0.5; //Stop player from jumping from one spot to another after lag
+
         if (_GraphicsManager.resourcesLoaded === false) {
             //wait until resources loaded
             return;
